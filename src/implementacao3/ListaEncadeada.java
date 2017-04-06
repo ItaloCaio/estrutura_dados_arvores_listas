@@ -2,18 +2,15 @@ package implementacao3;
 
 public class ListaEncadeada implements ListaEncadeada_IF {
 
-	protected Integer data;
+	protected int data =-1;
 	protected ListaEncadeada next;
 	
-	public ListaEncadeada(){
-		
-		next = new ListaEncadeada();
-	}
+
 
 	@Override
 	public boolean isEmpty() {
 
-		if (data == null)
+		if (data == -1)
 			return true;
 
 		return false;
@@ -24,6 +21,7 @@ public class ListaEncadeada implements ListaEncadeada_IF {
 
 		if (isEmpty())
 			return 0;
+		
 		else
 		{
 			return 1 + next.size();
@@ -53,22 +51,11 @@ public class ListaEncadeada implements ListaEncadeada_IF {
 			next = new ListaEncadeada();
 
 		} else {
-			int aux;
-			if (next.isEmpty()) {
-
-				aux = data;
-				data = element;
-				next = new ListaEncadeada();
-				next.data = aux;
-
-			} else {
-				aux = data;
-				data = element;
-				element = next.data;
-				next.data = aux;
-
-				next.insert(element);
-			}
+			
+			int aux = data;
+			data = element;
+			
+			next.insert(aux);
 
 		}
 
@@ -76,13 +63,30 @@ public class ListaEncadeada implements ListaEncadeada_IF {
 
 	@Override
 	public void remove(int element) {
-		// TODO Auto-generated method stub
-
+		
+		if(isEmpty()){
+			
+		}
+		else
+		{
+			if(data == element){
+				data = next.data;
+				next = next.next;
+			}
+			else
+				next.remove(element);
+			
+		}
+		
+		
+		
 	}
 
 	@Override
 	public int[] toArray() {
-
+		
+		int cont = 0 ;
+		
 		int array[] = new int[size()];
 
 		toArray(array, this, 0);
@@ -92,11 +96,11 @@ public class ListaEncadeada implements ListaEncadeada_IF {
 
 	public void toArray(int array[], ListaEncadeada node, int cont) {
 
-		if (!node.isEmpty()) {
-			cont = cont + 1;
-			array[cont] = node.data;
+		if (!(node.isEmpty())) {
+			
+			array[cont++] = node.data;
 
-			toArray(array, node, cont);
+			toArray(array, node.next, cont);
 		}
 
 	}
